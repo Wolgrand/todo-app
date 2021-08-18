@@ -55,7 +55,7 @@ export default function BasicStatistics({all, onGoing, completed}:BasicStatistic
         fontWeight={'bold'}>
         What is our company doing?
       </chakra.h1> */}
-      <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
+      <SimpleGrid columns={{ base: 3, md: 3 }} spacing={{ base: 5, lg: 8 }}>
         <StatsCard title={'On going'} stat={onGoing} />
         <StatsCard title={'Completed'} stat={completed} />
         <StatsCard title={'All'} stat={all} />
