@@ -16,6 +16,7 @@
 		"framer-motion": "4",
 		"next": "11.1.0",
 		"next-pwa": "^5.3.1",
+		"pwafire": "^3.0.2",
 		"react": "17.0.2",
 		"react-beforeunload": "^2.5.1",
 		"react-dom": "17.0.2",

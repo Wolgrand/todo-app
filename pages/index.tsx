@@ -1,10 +1,26 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { nanoid } from 'nanoid'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import { Todo } from '../common/interfaces'
-import { Layout, Placeholder, TodoInput, TodoItem, OfflineIndicator } from '../components'
+import { Layout, Placeholder, TodoInput, TodoItem, OfflineIndicator, TodoStatistics } from '../components'
 import { useBeforeunload } from 'react-beforeunload'
+import pwafire from "pwafire";
+
+const { pwa } = pwafire;
+
+async function askUserPermission() {
+  return await Notification.requestPermission();
+}
+
+const notification = {
+  title: "Hello Notification!",
+  options: {
+      body: "Progressive Web App Hello Notification!",
+      icon: "../images/icons/icon-128x128.png",
+      tag: "pwa",
+    },
+  };
 
 const initialData: Todo[] = [
   {
@@ -24,6 +40,16 @@ const initialData: Todo[] = [
 
 const Home: NextPage = () => {
   const [data, setData] = useState(initialData)
+
+  const completedQTY = useMemo(()=>{
+    const completedTasks = data.filter(item => item.done === true)
+    return completedTasks.length
+  }, [data])
+
+  const onGoingQTY = useMemo(()=>{
+    const onGoingTasks = data.filter(item => item.done === false)
+    return onGoingTasks.length
+  }, [data])
 
   const handleAdd = useCallback(
     (value) => {
@@ -57,6 +83,12 @@ const Home: NextPage = () => {
     localStorage.setItem('data', JSON.stringify(data))
   })
 
+  useEffect(()=>{
+
+    askUserPermission()
+    pwa.Notification(notification);
+  }, [data])
+
   useEffect(() => {
     const savedData = localStorage.getItem('data')
 
@@ -76,7 +108,7 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <TodoStatistics all={data.length} onGoing={onGoingQTY} completed={completedQTY} />
       <TodoInput onAdd={handleAdd} />
       {!!data.length ? (
         data.map(({ id, ...other }) => (
