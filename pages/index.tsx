@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import { Todo } from '../common/interfaces'
-import { Layout, Placeholder, TodoInput, TodoItem } from '../components'
+import { Layout, Placeholder, TodoInput, TodoItem, OfflineIndicator } from '../components'
 import { useBeforeunload } from 'react-beforeunload'
 
 const initialData: Todo[] = [
@@ -67,6 +67,7 @@ const Home: NextPage = () => {
 
   return (
     <Layout>
+      <OfflineIndicator />
       <Head>
         <title>Ghost Todo</title>
         <meta
