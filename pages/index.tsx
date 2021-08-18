@@ -101,7 +101,7 @@ const Home: NextPage = () => {
     <Layout>
       <OfflineIndicator />
       <Head>
-        <title>Ghost Todo</title>
+        <title>Todo PWA</title>
         <meta
           name="description"
           content="Todo app made with Next.js and Chakra UI"
