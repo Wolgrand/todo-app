@@ -6,8 +6,12 @@ import { Todo } from '../common/interfaces'
 import { Layout, Placeholder, TodoInput, TodoItem, OfflineIndicator, TodoStatistics } from '../components'
 import { useBeforeunload } from 'react-beforeunload'
 import pwafire from "pwafire";
+import { AddButton } from '../components/AddButton'
+import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react'
+import ModalInput from '../components/TodoInput'
 
 const { pwa } = pwafire;
+
 
 async function askUserPermission() {
   return await Notification.requestPermission();
@@ -40,6 +44,7 @@ const initialData: Todo[] = [
 
 const Home: NextPage = () => {
   const [data, setData] = useState(initialData)
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const completedQTY = useMemo(()=>{
     const completedTasks = data.filter(item => item.done === true)
@@ -58,6 +63,12 @@ const Home: NextPage = () => {
     },
     [data],
   )
+
+  useEffect(()=>{
+
+   onGoingQTY === 0 ? pwa.clearBadge() : pwa.setBadge(onGoingQTY)
+
+  },[onGoingQTY])
 
   const handleChange = useCallback(
     (id, changedData) => {
@@ -109,7 +120,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <TodoStatistics all={data.length} onGoing={onGoingQTY} completed={completedQTY} />
-      <TodoInput onAdd={handleAdd} />
+      {/* <TodoInput onAdd={handleAdd} /> */}
       {!!data.length ? (
         data.map(({ id, ...other }) => (
           <TodoItem
@@ -122,6 +133,15 @@ const Home: NextPage = () => {
       ) : (
         <Placeholder>Nothing to show</Placeholder>
       )}
+      <AddButton isOpen={onOpen} />
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent mx={4}>
+          <ModalBody>
+            <ModalInput onAdd={handleAdd} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Layout>
   )
 }

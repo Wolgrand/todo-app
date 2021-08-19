@@ -12,7 +12,7 @@ type Props = {
   onAdd: (value: string) => void
 }
 
-const TodoInput: React.FC<Props> = ({ onAdd }) => {
+const ModalInput: React.FC<Props> = ({ onAdd }) => {
   const [value, setValue] = useState('')
   const [placeholder, setPlaceholder] = useState('')
 
@@ -33,7 +33,7 @@ const TodoInput: React.FC<Props> = ({ onAdd }) => {
   }, [])
 
   return (
-    <Flex flexDirection="row" >
+    <Flex flexDirection="row" mx={6} py={4}>
       <InputGroup>
         <Input
           paddingRight={24}
@@ -62,4 +62,4 @@ const TodoInput: React.FC<Props> = ({ onAdd }) => {
   )
 }
 
-export default TodoInput
+export default ModalInput

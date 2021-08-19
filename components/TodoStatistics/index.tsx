@@ -32,7 +32,7 @@ function StatsCard(props: StatsCardProps) {
       borderColor={useColorModeValue('gray.800', 'gray.500')}
       rounded={'lg'}>
       <Center>
-        <StatLabel fontWeight={'medium'} isTruncated>
+        <StatLabel fontWeight={'medium'} fontSize={['small', 'medium']} isTruncated>
           {title}
         </StatLabel>
         </Center>
